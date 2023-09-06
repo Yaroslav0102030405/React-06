@@ -1,8 +1,9 @@
 // Модули
 import React, { Component } from 'react';
-import shortid from 'shortid';
-import { BsFill1CircleFill } from "react-icons/bs";
-import { BsFillAirplaneFill } from "react-icons/bs";
+// import shortid from 'shortid';
+import { BsFill1CircleFill } from 'react-icons/bs';
+import { BsFillAirplaneFill } from 'react-icons/bs';
+import axios from 'axios';
 // Компоненты
 // import Counter from './components/Counter';
 // import Dropdown from './components/Dropdown';
@@ -23,6 +24,8 @@ import TodoEditor from './components/TodoEditor';
 // import Notification from './components/Notification/Notification';
 import Modal from './components/Modal';
 
+import ArticlesView from './components/ArticlesView/ArticlesView';
+
 // const colorPickerOptions = [
 //   { label: 'red', color: '#F44336' },
 //   { label: 'green', color: '#4CAF50' },
@@ -35,6 +38,7 @@ import Modal from './components/Modal';
 class App extends Component {
   // храним заняения
   state = {
+    // articles: [],
     todos: [],
     filter: '',
     showModal: false,
@@ -47,14 +51,20 @@ class App extends Component {
     if (parsedTodos) {
       this.setState({ todos: parsedTodos });
     }
+
+  //   axios.get('http://localhost:3000/todos')
+  //     .then(({data }) => this.setState({ todos: data }))
+  //     .catch(error => console.log(error));
   }
 
   // записываем в локалсторидж
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.todos !== prevState.todos) {
-      localStorage.setItem('todos', JSON.stringify(this.state.todos));
-    }
-  }
+  // componentDidUpdate(prevProps, prevState) {
+  //   const nextTodos = this.state.todos;
+  //   const prevTodos = prevState.todos;
+  //   if (nextTodos !== prevTodos) {
+  //     localStorage.setItem('todos', JSON.stringify(this.state.todos));
+  //   }
+  // }
 
   toggleModal = () => {
     this.setState(({ showModal }) => ({
@@ -64,7 +74,6 @@ class App extends Component {
 
   addTodo = text => {
     const todo = {
-      id: shortid.generate(),
       text,
       completed: false,
     };
@@ -110,10 +119,11 @@ class App extends Component {
 
     return (
       <>
+      <ArticlesView />
         <button type="button" onClick={this.toggleModal}>
-          <BsFill1CircleFill size={60} fill='red' aria-label='цифра один'  />
+          <BsFill1CircleFill size={60} fill="red" aria-label="цифра один" />
           Открыть модалку
-          <BsFillAirplaneFill size="60" color='red' aria-label='самолет' />
+          <BsFillAirplaneFill size="60" color="red" aria-label="самолет" />
         </button>
         {showModal && (
           <Modal onClose={this.toggleModal}>
